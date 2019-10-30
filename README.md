@@ -46,14 +46,14 @@ $ docker-compose logs | grep "GENERATED ROOT PASSWORD" | awk '{ print $NF }
 docker exec -it comms-demo_mysql_1 mysqladmin --user=root -p password
 ```
 
-Follow the prompts. From here on after, let's say you set it to: `PASSWORD`
+Follow the prompts. From here on after, let's say you set it to: `A_PASSWORD`
 
 4. Load the data. You can do this all in one go straight from GCP.
 
 ```bash
 $ gsutil cat gs://neo4j-se-demodata/enron-mysqldump.sql.gz \
     | pv -a | gunzip -v \
-    | docker exec -i comms-demo_mysql_1 sh -c 'mysql -u root --password=ooT4jizoozah5eey9fo1weiwohtho3vi'
+    | docker exec -i comms-demo_mysql_1 sh -c 'mysql -u root --password=A_PASSWORD'
 ```
 
 > Note: I'm using `pv` in the above command. I recommend putting it in
