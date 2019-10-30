@@ -1,0 +1,13 @@
+version: "3.5"
+services:
+  mysql:
+    image: mysql:8
+    volumes:
+      - ./db-data:/var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: "enron"
+    ports:
+      - target: 3306
+        published: 33060
+    user: "${DOCKER_UID:-0}:${DOCKER_GID:-1}"
