@@ -1,7 +1,9 @@
 # Communications Demo
 __Building a Communication Surveillance Network__
 
-## Background & Prerequisites
+<TODO: Insert a screenshot of the demo once built>
+
+## Prerequisites
 This demo relies on loading data from a MySQL instance containing the
 [Enron Email Corpus](https://en.wikipedia.org/wiki/Enron_Corpus). It
 contains approximately 252k emails circa 2001 between various internal
@@ -10,21 +12,29 @@ folks at Enron.
 It will consume ~2.2G of disk space once restored, so make sure you
 have some free space.
 
-1. MySQL --OR-- Docker & Compose
+1. **MySQL *OR* Docker & Compose**
+
 You can provide your own MySQL instance if you'd like, but if you have
 Docker and can have installed [Docker
 Compose](https://docs.docker.com/compose/install/) you can use Docker instead.
 
-2. GCP Access to the "neo4j-se-demodata" bucket
+
+2. **GCP Access to the "neo4j-se-demodata" bucket**
+
 The database dump is in GCP:
 `gs://neo4j-se-demodata/enron-mysqldump.sql.gz`
 
-3. Google Cloud SDK
+
+3. **Google Cloud SDK**
+
 You need the Google Cloud SDK installed so `gcloud` is available on
 your path. You also need to be authenticated (`gcloud auth login`). It
 will provide the `gsutil` program for cli access to the storage bucket.
 
-4. APOC and MySQL JDBC plugins
+
+4. **APOC and MySQL JDBC plugins**
+
+Data loading will be done via JDBC APOC procedures.
 
 
 ## Populating the MySQL Database
@@ -52,7 +62,7 @@ Follow the prompts. From here on after, let's say you set it to: `A_PASSWORD`
 
 ```bash
 $ gsutil cat gs://neo4j-se-demodata/enron-mysqldump.sql.gz \
-    | pv -a | gunzip -v \
+    | pv -a | gunzip \
     | docker exec -i comms-demo_mysql_1 sh -c 'mysql -u root --password=A_PASSWORD'
 ```
 
@@ -116,7 +126,7 @@ following plugins installed:
 - MySQL JDBC Driver: https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.18.tar.gz
 
 ...
-**TODO: Write some CYPER + APOC**
+**TODO: Write some CYPHER + APOC**
 
 ## Who to ping if you need help
 
