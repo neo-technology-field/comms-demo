@@ -1,7 +1,7 @@
-# Communications Demo
+# Communications Surveillance Demo
 __Building a Communication Surveillance Network__
 
-<TODO: Insert a screenshot of the demo once built>
+![Project Stanley](./img/enron-project-stanley.png?raw=true)
 
 ## Prerequisites
 This demo relies on loading data from a MySQL instance containing the
