@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>extract-people</name>
+    <name>extract-emails</name>
     <description />
     <extended_description />
     <trans_version />
@@ -427,35 +427,13 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2019/10/31 14:57:11.134</created_date>
+    <created_date>2019/11/01 09:12:38.368</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2019/10/31 14:57:11.134</modified_date>
+    <modified_date>2019/11/01 09:12:38.368</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
-    <notepad>
-      <note>We derive both People and some Email Addresses from 
-the same DB table.</note>
-      <xloc>176</xloc>
-      <yloc>32</yloc>
-      <width>348</width>
-      <heigth>42</heigth>
-      <fontname>.AppleSystemUIFont</fontname>
-      <fontsize>13</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>205</backgroundcolorgreen>
-      <backgroundcolorblue>112</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>Y</drawshadow>
-    </notepad>
   </notepads>
   <connection>
     <name>enron-db</name>
@@ -514,221 +492,21 @@ the same DB table.</note>
   </connection>
   <order>
     <hop>
-      <from>Drop People Fields</from>
-      <to>Split Out Email Aliases</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Drop Blank Emails</from>
-      <to>Extract Domains</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Split Out Email Aliases</from>
-      <to>Drop Blank Emails</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Load Email Addresses</from>
-      <to>Write to log 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Make Fullnames</from>
-      <to>Load Employees</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Load Employees</from>
+      <from>Load Email Messages</from>
       <to>Write to log</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Fetch Employees</from>
-      <to>Make Fullnames</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Write to log</from>
-      <to>Drop People Fields</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Extract Domains</from>
-      <to>Load Email Addresses</to>
+      <to>Load Email Messages</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Fetch Email Messages</from>
+      <to>Extract Domains</to>
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>Make Fullnames</name>
-    <type>ConcatFields</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <separator> </separator>
-    <enclosure />
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>N</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding />
-    <endedLine />
-    <fileNameInField>N</fileNameInField>
-    <fileNameField />
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name>file</name>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention>txt</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format />
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>firstName</name>
-        <type>None</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif />
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>lastName</name>
-        <type>None</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif />
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <ConcatFields>
-      <targetFieldName>name</targetFieldName>
-      <targetFieldLength>0</targetFieldLength>
-      <removeSelectedFields>N</removeSelectedFields>
-    </ConcatFields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>192</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Drop Blank Emails</name>
-    <type>FilterRows</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <send_true_to>Extract Domains</send_true_to>
-    <send_false_to />
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>email</leftvalue>
-        <function>&lt;></function>
-        <rightvalue />
-        <value>
-          <name>constant</name>
-          <type>String</type>
-          <text />
-          <length>0</length>
-          <precision>-1</precision>
-          <isnull>Y</isnull>
-          <mask />
-        </value>
-      </condition>
-    </compare>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Drop People Fields</name>
-    <type>SelectValues</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <fields>
-      <select_unspecified>N</select_unspecified>
-      <remove>
-        <name>firstName</name>
-      </remove>
-      <remove>
-        <name>lastName</name>
-      </remove>
-      <remove>
-        <name>folder</name>
-      </remove>
-      <remove>
-        <name>status</name>
-      </remove>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>544</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Extract Domains</name>
     <type>RegexEval</type>
@@ -741,7 +519,7 @@ the same DB table.</note>
       <schema_name />
     </partitioning>
     <script>^.+?@(.+)$</script>
-    <matcher>email</matcher>
+    <matcher>sender</matcher>
     <resultfieldname />
     <usevar>Y</usevar>
     <allowcapturegroups>Y</allowcapturegroups>
@@ -777,13 +555,13 @@ the same DB table.</note>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>608</xloc>
-      <yloc>240</yloc>
+      <xloc>256</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Fetch Employees</name>
+    <name>Fetch Email Messages</name>
     <type>TableInput</type>
     <description />
     <distribute>N</distribute>
@@ -795,16 +573,13 @@ the same DB table.</note>
     </partitioning>
     <connection>enron-db</connection>
     <sql>SELECT
-  eid
-, firstName
-, lastName
-, Email_id
-, Email2
-, Email3
-, EMail4
+  mid
+, sender
+, date
+, message_id
+, subject
 , folder
-, status
-FROM employeelist
+FROM message
 </sql>
     <limit>0</limit>
     <lookup />
@@ -820,13 +595,13 @@ FROM employeelist
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>128</yloc>
+      <xloc>80</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Load Email Addresses</name>
+    <name>Load Email Messages</name>
     <type>Neo4jCypherOutput</type>
     <description />
     <distribute>Y</distribute>
@@ -837,36 +612,50 @@ FROM employeelist
       <schema_name />
     </partitioning>
     <connection>neo4j</connection>
-    <cypher>MATCH (p:Person {id:{eid}})
-MERGE (e:EmailAddress {email:{email}})
-	ON CREATE SET 
-		e.domain = {domain},
-		e.type = {type}
-MERGE (p)-[:HAS_EMAIL]->(e)
-</cypher>
-    <batch_size />
+    <cypher>UNWIND $rows AS row
+	MATCH (e:EmailAddress {email:row.sender})
+	MERGE (m:Message {id:row.mid})
+		ON CREATE SET m = row, m.id = row.mid
+	MERGE (e)-[:SENT]->(m)
+	RETURN row.mid AS mid, row.sender AS sender</cypher>
+    <batch_size>500</batch_size>
     <read_only>N</read_only>
     <retry>Y</retry>
     <cypher_from_field>N</cypher_from_field>
     <cypher_field />
-    <unwind>N</unwind>
-    <unwind_map />
+    <unwind>Y</unwind>
+    <unwind_map>rows</unwind_map>
     <returning_graph>N</returning_graph>
     <return_graph_field />
     <mappings>
       <mapping>
-        <parameter>eid</parameter>
-        <field>eid</field>
+        <parameter>mid</parameter>
+        <field>mid</field>
         <type>Integer</type>
       </mapping>
       <mapping>
-        <parameter>type</parameter>
-        <field>type</field>
+        <parameter>sender</parameter>
+        <field>sender</field>
         <type>String</type>
       </mapping>
       <mapping>
-        <parameter>email</parameter>
-        <field>email</field>
+        <parameter>date</parameter>
+        <field>date</field>
+        <type>LocalDateTime</type>
+      </mapping>
+      <mapping>
+        <parameter>messageId</parameter>
+        <field>message_id</field>
+        <type>String</type>
+      </mapping>
+      <mapping>
+        <parameter>subject</parameter>
+        <field>subject</field>
+        <type>String</type>
+      </mapping>
+      <mapping>
+        <parameter>folder</parameter>
+        <field>folder</field>
         <type>String</type>
       </mapping>
       <mapping>
@@ -875,78 +664,18 @@ MERGE (p)-[:HAS_EMAIL]->(e)
         <type>String</type>
       </mapping>
     </mappings>
-    <returns />
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>752</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Load Employees</name>
-    <type>Neo4jCypherOutput</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <connection>neo4j</connection>
-    <cypher>MERGE (p:Person {id:{eid}})
-	ON CREATE SET
-		p.firstName = {firstName},
-		p.lastName = {lastName},
-		p.name = {name},
-		p.status = {status}
-
-</cypher>
-    <batch_size />
-    <read_only>N</read_only>
-    <retry>Y</retry>
-    <cypher_from_field>N</cypher_from_field>
-    <cypher_field />
-    <unwind>N</unwind>
-    <unwind_map />
-    <returning_graph>N</returning_graph>
-    <return_graph_field />
-    <mappings>
-      <mapping>
-        <parameter>eid</parameter>
-        <field>eid</field>
+    <returns>
+      <return>
+        <name>mid</name>
         <type>Integer</type>
-      </mapping>
-      <mapping>
-        <parameter>firstName</parameter>
-        <field>firstName</field>
+        <source_type>Integer</source_type>
+      </return>
+      <return>
+        <name>sender</name>
         <type>String</type>
-      </mapping>
-      <mapping>
-        <parameter>lastName</parameter>
-        <field>lastName</field>
-        <type>String</type>
-      </mapping>
-      <mapping>
-        <parameter>status</parameter>
-        <field>status</field>
-        <type>String</type>
-      </mapping>
-      <mapping>
-        <parameter>name</parameter>
-        <field>name</field>
-        <type>String</type>
-      </mapping>
-    </mappings>
-    <returns />
+        <source_type>String</source_type>
+      </return>
+    </returns>
     <attributes />
     <cluster_schema />
     <remotesteps>
@@ -956,56 +685,8 @@ MERGE (p)-[:HAS_EMAIL]->(e)
       </output>
     </remotesteps>
     <GUI>
-      <xloc>304</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split Out Email Aliases</name>
-    <type>Normaliser</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <typefield>type</typefield>
-    <fields>
-      <field>
-        <name>Email_id</name>
-        <value>1</value>
-        <norm>email</norm>
-      </field>
-      <field>
-        <name>Email2</name>
-        <value>2</value>
-        <norm>email</norm>
-      </field>
-      <field>
-        <name>Email3</name>
-        <value>3</value>
-        <norm>email</norm>
-      </field>
-      <field>
-        <name>EMail4</name>
-        <value>4</value>
-        <norm>email</norm>
-      </field>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>288</xloc>
-      <yloc>240</yloc>
+      <xloc>400</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1013,53 +694,6 @@ MERGE (p)-[:HAS_EMAIL]->(e)
     <name>Write to log</name>
     <type>WriteToLog</type>
     <description />
-    <distribute>N</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>Y</limitRows>
-    <limitRowsNumber>10</limitRowsNumber>
-    <logmessage>Employees Loaded</logmessage>
-    <fields>
-      <field>
-        <name>eid</name>
-      </field>
-      <field>
-        <name>firstName</name>
-      </field>
-      <field>
-        <name>lastName</name>
-      </field>
-      <field>
-        <name>status</name>
-      </field>
-      <field>
-        <name>name</name>
-      </field>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>416</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Write to log 2</name>
-    <type>WriteToLog</type>
-    <description />
     <distribute>Y</distribute>
     <custom_distribution />
     <copies>1</copies>
@@ -1070,23 +704,14 @@ MERGE (p)-[:HAS_EMAIL]->(e)
     <loglevel>log_level_basic</loglevel>
     <displayHeader>Y</displayHeader>
     <limitRows>Y</limitRows>
-    <limitRowsNumber>10</limitRowsNumber>
-    <logmessage>Emails Loaded</logmessage>
+    <limitRowsNumber>20</limitRowsNumber>
+    <logmessage>Emails loaded</logmessage>
     <fields>
       <field>
-        <name>eid</name>
+        <name>mid</name>
       </field>
       <field>
-        <name>name</name>
-      </field>
-      <field>
-        <name>type</name>
-      </field>
-      <field>
-        <name>email</name>
-      </field>
-      <field>
-        <name>domain</name>
+        <name>sender</name>
       </field>
     </fields>
     <attributes />
@@ -1098,8 +723,8 @@ MERGE (p)-[:HAS_EMAIL]->(e)
       </output>
     </remotesteps>
     <GUI>
-      <xloc>880</xloc>
-      <yloc>240</yloc>
+      <xloc>544</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
