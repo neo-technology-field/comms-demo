@@ -609,17 +609,18 @@ WHERE rtype = 'TO' OR rtype = 'CC'
       <schema_name />
     </partitioning>
     <connection>neo4j</connection>
-    <cypher>MATCH (m:Message {id:{mid}})
-MATCH (e:EmailAddress {email:{rvalue}})
-CREATE (m)-[cc:CC]->(e)
-RETURN id(cc) AS cc</cypher>
-    <batch_size />
+    <cypher>UNWIND $rows AS row
+	MATCH (m:Message {id:row.mid})
+	MATCH (e:EmailAddress {email:row.rvalue})
+	CREATE (m)-[cc:CC]->(e)
+	RETURN id(cc) AS cc, m.id AS mid, e.email AS email</cypher>
+    <batch_size>500</batch_size>
     <read_only>N</read_only>
     <retry>Y</retry>
     <cypher_from_field>N</cypher_from_field>
     <cypher_field />
-    <unwind>N</unwind>
-    <unwind_map />
+    <unwind>Y</unwind>
+    <unwind_map>rows</unwind_map>
     <returning_graph>N</returning_graph>
     <return_graph_field />
     <mappings>
@@ -650,6 +651,16 @@ RETURN id(cc) AS cc</cypher>
         <type>Integer</type>
         <source_type>Integer</source_type>
       </return>
+      <return>
+        <name>mid</name>
+        <type>Integer</type>
+        <source_type>Integer</source_type>
+      </return>
+      <return>
+        <name>email</name>
+        <type>String</type>
+        <source_type>String</source_type>
+      </return>
     </returns>
     <attributes />
     <cluster_schema />
@@ -677,17 +688,18 @@ RETURN id(cc) AS cc</cypher>
       <schema_name />
     </partitioning>
     <connection>neo4j</connection>
-    <cypher>MATCH (m:Message {id:{mid}})
-MATCH (e:EmailAddress {email:{rvalue}})
-CREATE (m)-[to:TO]->(e)
-RETURN id(to) AS to</cypher>
-    <batch_size />
+    <cypher>UNWIND $rows AS row
+	MATCH (m:Message {id:row.mid})
+	MATCH (e:EmailAddress {email:row.rvalue})
+	CREATE (m)-[to:TO]->(e)
+	RETURN id(to) AS to, m.id AS mid, e.email AS email</cypher>
+    <batch_size>500</batch_size>
     <read_only>N</read_only>
     <retry>Y</retry>
     <cypher_from_field>N</cypher_from_field>
     <cypher_field />
-    <unwind>N</unwind>
-    <unwind_map />
+    <unwind>Y</unwind>
+    <unwind_map>rows</unwind_map>
     <returning_graph>N</returning_graph>
     <return_graph_field />
     <mappings>
@@ -717,6 +729,16 @@ RETURN id(to) AS to</cypher>
         <name>to</name>
         <type>Integer</type>
         <source_type>Integer</source_type>
+      </return>
+      <return>
+        <name>mid</name>
+        <type>Integer</type>
+        <source_type>Ingeger</source_type>
+      </return>
+      <return>
+        <name>email</name>
+        <type>String</type>
+        <source_type>String</source_type>
       </return>
     </returns>
     <attributes />
@@ -795,19 +817,13 @@ RETURN id(to) AS to</cypher>
     <logmessage>Wrote CC relationships</logmessage>
     <fields>
       <field>
-        <name>rid</name>
+        <name>cc</name>
       </field>
       <field>
         <name>mid</name>
       </field>
       <field>
-        <name>rtype</name>
-      </field>
-      <field>
-        <name>rvalue</name>
-      </field>
-      <field>
-        <name>cc</name>
+        <name>email</name>
       </field>
     </fields>
     <attributes />
@@ -842,19 +858,13 @@ RETURN id(to) AS to</cypher>
     <logmessage>Wrote TO relationships</logmessage>
     <fields>
       <field>
-        <name>rid</name>
+        <name>to</name>
       </field>
       <field>
         <name>mid</name>
       </field>
       <field>
-        <name>rtype</name>
-      </field>
-      <field>
-        <name>rvalue</name>
-      </field>
-      <field>
-        <name>to</name>
+        <name>email</name>
       </field>
     </fields>
     <attributes />
