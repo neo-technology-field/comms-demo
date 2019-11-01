@@ -134,6 +134,22 @@ GRANT SELECT ON enron.* TO 'neo4j'@'%';
 
 ## Populating the Graph
 
+### Using Kettle
+Grab the Kettle Remix and follow my [instructions](./kettle/README.md)
+for running the provided Kettle job. It'll produce a data model
+resembling:
+
+![db.schema output](./img/db-schema-v2.png?raw=true)
+
+In Cypher:
+
+```
+(:Person)-[:HAS_EMAIL]->(:EmailAddress)->[:SENT]->(:Message)-[:TO|CC]->(:Message)
+```
+
+### Using APOC
+> Note: This is my original approach and needs to be updated.
+
 We're going to use APOC to populate the graph. Make sure you have the
 following plugins installed:
 
@@ -144,8 +160,10 @@ following plugins installed:
 2. Load Messages -- [01-email.cypher](./01-email.cypher)
 3. Load Relationships -- [02-relationships.cypher](./02-relationships.cypher)
 
-### Kettle Job
-**WIP**
+
+## Exploring the Data
+
+**TODO**: demo story!!!
 
 ## Who to ping if you need help
 
