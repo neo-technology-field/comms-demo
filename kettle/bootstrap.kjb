@@ -533,7 +533,7 @@
 ;
 CREATE CONSTRAINT ON (e:EmailAddress) ASSERT e.email IS UNIQUE
 ;
-CREATE CONSTRAINT ON (m:Message) ASSERT m.id IS UNIQUE</script>
+CREATE CONSTRAINT ON (m:Message) ASSERT m.mid IS UNIQUE</script>
       <replace_variables>N</replace_variables>
       <parallel>N</parallel>
       <draw>Y</draw>
