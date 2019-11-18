@@ -3,3 +3,5 @@
 *.sql.gz
 *.tar.gz
 
+/.hgignore
+*.swp
