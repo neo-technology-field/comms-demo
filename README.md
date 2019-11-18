@@ -145,7 +145,7 @@ Grab the Kettle Remix and follow my [instructions](./kettle/README.md)
 for running the provided Kettle job. It'll produce a data model
 resembling:
 
-![db.schema output](./img/db-schema-v2.png?raw=true)
+![db.schema output](./img/db-schema-v3.png?raw=true)
 
 In Cypher:
 
@@ -234,6 +234,12 @@ RETURN COUNT(*)
 ## 3. Exploring the Data
 
 **TODO**: demo story!!!
+
+For now, here's an example of an email exchange with replies and
+someone being dropped out of a cc list in a reply:
+
+![example reply to thread](./img/example-01.png?raw=true)
+
 
 ---
 #### Who to ping if you need help
