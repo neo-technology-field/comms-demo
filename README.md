@@ -3,7 +3,7 @@ __Building a Communication Surveillance Network__
 
 ![Project Stanley](./img/enron-project-stanley.png?raw=true)
 
-## Prerequisites
+## 0. Prerequisites
 This demo relies on loading data from a MySQL instance containing the
 [Enron Email Corpus](https://en.wikipedia.org/wiki/Enron_Corpus). It
 contains approximately 252k emails circa 2001 between various internal
@@ -43,7 +43,7 @@ If you don't want to use GCP, use the file in S3.
 Data loading will be done via JDBC APOC procedures.
 
 
-## Populating the MySQL Database
+## 1. Populating the MySQL Database
 
 1. Start the database.
 
@@ -132,9 +132,15 @@ GRANT SELECT ON enron.* TO 'neo4j'@'%';
 ```
 
 
-## Populating the Graph
+## 2. Populating the Graph
+The following steps are for building out the graph in Neo4j. You
+should run these in order.
 
-### Using Kettle
+### Loading the Email Messages
+The primary content are emails in the MySQL database. We've got two
+ways to load them: Kettle and APOC.
+
+#### Option 1: Using Kettle
 Grab the Kettle Remix and follow my [instructions](./kettle/README.md)
 for running the provided Kettle job. It'll produce a data model
 resembling:
@@ -147,7 +153,7 @@ In Cypher:
 (:Person)-[:HAS_EMAIL]->(:EmailAddress)->[:SENT]->(:Message)-[:TO|CC]->(:Message)
 ```
 
-### Using APOC
+#### Option 2: Using APOC
 > Note: This is my original approach and needs to be updated.
 
 We're going to use APOC to populate the graph. Make sure you have the
@@ -160,11 +166,76 @@ following plugins installed:
 2. Load Messages -- [01-email.cypher](./01-email.cypher)
 3. Load Relationships -- [02-relationships.cypher](./02-relationships.cypher)
 
+### Threading Messages
+The Enron dataset doesn't contain email "threads" for various reasons
+having to do with email, how the data was collected, etc. All beyond
+the scope of this demo.
 
-## Exploring the Data
+However, to make things interesting, we're going to take a naive
+approach to identifying simple communication threads.
+
+#### Naive Methodology
+1. Over the corpus, analyze each _subject_ to determine the "root" of
+   the subject and the "type".
+
+   ```
+   "Something Awesome" ->     {:root "Something Awesome" :type :original}
+   "re: Something Awesome" -> {:root "Something Awesome" :type :re}
+   "FW: Something Awesome" -> {:root "Something Awesome" :type :fw}
+   ```
+
+2. Reduce the corpus on equivalent "roots", collecting them together.
+
+3. Order each collection by _date_
+
+4. Sanity check, removing any threads with multiple "originals"
+
+5. Declare victory.
+
+> Note: Currently, forwards do not "fork" an email thread. That's
+> future work.
+
+#### The Execution
+I whipped up some simple [Clojure code](./enron-threading) that will
+connect to the MySQL database, pull out all the messages, perform the
+analysis, and dump out a simple mapping of relationships to _stdout_
+like:
+
+```
+from,to
+12451,12522
+12522,15162
+15233,22222
+22222,23323
+23323,55555
+...
+```
+
+> Note: for now the connection details are hardcoded, but you can
+> modify `core.clj` to update connection details to your MySQL db,
+> install [Leiningen](https://leiningen.org/) and just `lein run`
+
+Where each value is the _mid_ (i.e. message id). Loading the output as
+a CSV is trivial Cypher:
+
+```cypher
+LOAD CSV WITH HEADERS FROM 'file:///threads.csv' AS row
+MATCH (left:Message {mid:toInteger(row.from)})
+MATCH (right:Message {mid:toInteger(row.to)}) WHERE left.mid <> right.mid
+MERGE (left)-[:NEXT]->(right)
+RETURN COUNT(*)
+```
+
+
+### Identifying and Tagging Entities
+
+**TODO**: add extraction of topics like "Project Stanley" et. al.
+
+## 3. Exploring the Data
 
 **TODO**: demo story!!!
 
-## Who to ping if you need help
+---
+#### Who to ping if you need help
 
-Email: dave.voutila@neo4j.com or ping @dave.voutila on Slack
+Email: dave.voutila@neo4j.com or ping `@dave.voutila` on Slack
