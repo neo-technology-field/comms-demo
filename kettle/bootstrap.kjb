@@ -17,9 +17,9 @@
     <type>MYSQL</type>
     <access>Native</access>
     <database>${ENRON_DB_NAME}</database>
-    <port>${ENRON_DB_PORT}</port>
+    <port>33060</port>
     <username>${ENRON_DB_USER}</username>
-    <password>${ENRON_DB_PASSWORD}</password>
+    <password>Encrypted 2be98afc86aa7f2e4bb18bd63c99dbdde</password>
     <servername />
     <data_tablespace />
     <index_tablespace />
@@ -38,7 +38,7 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>${ENRON_DB_PORT}</attribute>
+        <attribute>33060</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -390,7 +390,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1088</xloc>
+      <xloc>784</xloc>
       <yloc>32</yloc>
       <attributes_kjc />
     </entry>
@@ -428,8 +428,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>496</xloc>
-      <yloc>32</yloc>
+      <xloc>96</xloc>
+      <yloc>208</yloc>
       <attributes_kjc />
     </entry>
     <entry>
@@ -481,8 +481,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>608</xloc>
-      <yloc>32</yloc>
+      <xloc>288</xloc>
+      <yloc>208</yloc>
       <attributes_kjc />
     </entry>
     <entry>
@@ -519,8 +519,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>736</xloc>
-      <yloc>32</yloc>
+      <xloc>464</xloc>
+      <yloc>192</yloc>
       <attributes_kjc />
     </entry>
     <entry>
@@ -538,7 +538,7 @@ CREATE CONSTRAINT ON (m:Message) ASSERT m.mid IS UNIQUE</script>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>384</xloc>
+      <xloc>528</xloc>
       <yloc>32</yloc>
       <attributes_kjc />
     </entry>
@@ -576,8 +576,8 @@ CREATE CONSTRAINT ON (m:Message) ASSERT m.mid IS UNIQUE</script>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>976</xloc>
-      <yloc>32</yloc>
+      <xloc>784</xloc>
+      <yloc>192</yloc>
       <attributes_kjc />
     </entry>
     <entry>
@@ -614,8 +614,23 @@ CREATE CONSTRAINT ON (m:Message) ASSERT m.mid IS UNIQUE</script>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>848</xloc>
-      <yloc>32</yloc>
+      <xloc>624</xloc>
+      <yloc>192</yloc>
+      <attributes_kjc />
+    </entry>
+    <entry>
+      <name>Schema Log</name>
+      <description />
+      <type>WRITE_TO_LOG</type>
+      <attributes />
+      <logmessage>Schema probably exists</logmessage>
+      <loglevel>Basic</loglevel>
+      <logsubject>SCHEMA</logsubject>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>656</xloc>
+      <yloc>80</yloc>
       <attributes_kjc />
     </entry>
   </entries>
@@ -695,6 +710,24 @@ CREATE CONSTRAINT ON (m:Message) ASSERT m.mid IS UNIQUE</script>
     <hop>
       <from>Load Recipients</from>
       <to>Load Recipient Info</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Define Schema</from>
+      <to>Schema Log</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Schema Log</from>
+      <to>Load People</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

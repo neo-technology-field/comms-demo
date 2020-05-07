@@ -555,8 +555,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>112</yloc>
+      <xloc>352</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -595,8 +595,8 @@ FROM message
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>112</yloc>
+      <xloc>144</xloc>
+      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -614,8 +614,8 @@ FROM message
     <connection>neo4j</connection>
     <cypher>UNWIND $rows AS row
 	MATCH (e:EmailAddress {email:row.sender})
-	MERGE (m:Message {id:row.mid})
-		ON CREATE SET m = row, m.id = row.mid
+	MERGE (m:Message {mid:row.mid})
+		ON CREATE SET m += row
 	MERGE (e)-[:SENT]->(m)
 	RETURN row.mid AS mid, row.sender AS sender</cypher>
     <batch_size>500</batch_size>
@@ -685,8 +685,8 @@ FROM message
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>112</yloc>
+      <xloc>608</xloc>
+      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -723,8 +723,8 @@ FROM message
       </output>
     </remotesteps>
     <GUI>
-      <xloc>544</xloc>
-      <yloc>112</yloc>
+      <xloc>912</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

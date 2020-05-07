@@ -443,8 +443,8 @@ NOTE: we assume BCC == CC in this case due to the data
 being mostly BCC's matching CC's.</note>
       <xloc>80</xloc>
       <yloc>16</yloc>
-      <width>361</width>
-      <heigth>106</heigth>
+      <width>529</width>
+      <heigth>141</heigth>
       <fontname>.AppleSystemUIFont</fontname>
       <fontsize>13</fontsize>
       <fontbold>N</fontbold>
@@ -592,8 +592,8 @@ WHERE rtype = 'TO' OR rtype = 'CC'
       </output>
     </remotesteps>
     <GUI>
-      <xloc>96</xloc>
-      <yloc>208</yloc>
+      <xloc>80</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -610,7 +610,7 @@ WHERE rtype = 'TO' OR rtype = 'CC'
     </partitioning>
     <connection>neo4j</connection>
     <cypher>UNWIND $rows AS row
-	MATCH (m:Message {id:row.mid})
+	MATCH (m:Message {mid:row.mid})
 	MATCH (e:EmailAddress {email:row.rvalue})
 	CREATE (m)-[cc:CC]->(e)
 	RETURN id(cc) AS cc, m.id AS mid, e.email AS email</cypher>
@@ -671,7 +671,7 @@ WHERE rtype = 'TO' OR rtype = 'CC'
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
+      <xloc>688</xloc>
       <yloc>272</yloc>
       <draw>Y</draw>
     </GUI>
@@ -689,7 +689,7 @@ WHERE rtype = 'TO' OR rtype = 'CC'
     </partitioning>
     <connection>neo4j</connection>
     <cypher>UNWIND $rows AS row
-	MATCH (m:Message {id:row.mid})
+	MATCH (m:Message {mid:row.mid})
 	MATCH (e:EmailAddress {email:row.rvalue})
 	CREATE (m)-[to:TO]->(e)
 	RETURN id(to) AS to, m.id AS mid, e.email AS email</cypher>
@@ -750,7 +750,7 @@ WHERE rtype = 'TO' OR rtype = 'CC'
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
+      <xloc>704</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
@@ -794,8 +794,8 @@ WHERE rtype = 'TO' OR rtype = 'CC'
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>320</yloc>
+      <xloc>304</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -835,7 +835,51 @@ WHERE rtype = 'TO' OR rtype = 'CC'
       </output>
     </remotesteps>
     <GUI>
-      <xloc>768</xloc>
+      <xloc>864</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Log CCs Preprocess</name>
+    <type>WriteToLog</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>Y</limitRows>
+    <limitRowsNumber>10</limitRowsNumber>
+    <logmessage>About to process CCs</logmessage>
+    <fields>
+      <field>
+        <name>rid</name>
+      </field>
+      <field>
+        <name>mid</name>
+      </field>
+      <field>
+        <name>rtype</name>
+      </field>
+      <field>
+        <name>rvalue</name>
+      </field>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>496</xloc>
       <yloc>272</yloc>
       <draw>Y</draw>
     </GUI>
@@ -876,50 +920,8 @@ WHERE rtype = 'TO' OR rtype = 'CC'
       </output>
     </remotesteps>
     <GUI>
-      <xloc>768</xloc>
+      <xloc>896</xloc>
       <yloc>160</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split on Receiving Type</name>
-    <type>SwitchCase</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <fieldname>rtype</fieldname>
-    <use_contains>N</use_contains>
-    <case_value_type>String</case_value_type>
-    <case_value_format />
-    <case_value_decimal />
-    <case_value_group />
-    <default_target_step>Log Anomalies</default_target_step>
-    <cases>
-      <case>
-        <value>TO</value>
-        <target_step>Log TOs Preprocess</target_step>
-      </case>
-      <case>
-        <value>CC</value>
-        <target_step>Log CCs Preprocess</target_step>
-      </case>
-    </cases>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>272</xloc>
-      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -968,8 +970,8 @@ WHERE rtype = 'TO' OR rtype = 'CC'
     </GUI>
   </step>
   <step>
-    <name>Log CCs Preprocess</name>
-    <type>WriteToLog</type>
+    <name>Split on Receiving Type</name>
+    <type>SwitchCase</type>
     <description />
     <distribute>Y</distribute>
     <custom_distribution />
@@ -978,25 +980,23 @@ WHERE rtype = 'TO' OR rtype = 'CC'
       <method>none</method>
       <schema_name />
     </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>Y</limitRows>
-    <limitRowsNumber>10</limitRowsNumber>
-    <logmessage>About to process CCs</logmessage>
-    <fields>
-      <field>
-        <name>rid</name>
-      </field>
-      <field>
-        <name>mid</name>
-      </field>
-      <field>
-        <name>rtype</name>
-      </field>
-      <field>
-        <name>rvalue</name>
-      </field>
-    </fields>
+    <fieldname>rtype</fieldname>
+    <use_contains>N</use_contains>
+    <case_value_type>String</case_value_type>
+    <case_value_format />
+    <case_value_decimal />
+    <case_value_group />
+    <default_target_step>Log Anomalies</default_target_step>
+    <cases>
+      <case>
+        <value>TO</value>
+        <target_step>Log TOs Preprocess</target_step>
+      </case>
+      <case>
+        <value>CC</value>
+        <target_step>Log CCs Preprocess</target_step>
+      </case>
+    </cases>
     <attributes />
     <cluster_schema />
     <remotesteps>
@@ -1006,8 +1006,8 @@ WHERE rtype = 'TO' OR rtype = 'CC'
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>272</yloc>
+      <xloc>272</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
